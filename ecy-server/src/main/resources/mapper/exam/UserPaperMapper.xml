@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.UserPaperMapper">
+
+    <!--    获取分页数据-->
+    <select id="getUserPaperByPage" resultType="com.yongoe.ecy.exam.entity.UserPaper">
+        select
+        id, user_id, exam_id, status, enter_time, finish_time, score
+        from e_user_paper
+        <where>
+            <if test="null != userPaper.id">
+                and id = #{userPaper.id}
+            </if>
+            <if test="null != userPaper.userId">
+                and user_id = #{userPaper.userId}
+            </if>
+            <if test="null != userPaper.examId">
+                and exam_id = #{userPaper.examId}
+            </if>
+            <if test="null != userPaper.status and ''!=userPaper.status">
+                and status LIKE CONCAT('%',#{userPaper.status  },'%')
+            </if>
+            <if test="null != userPaper.enterTime">
+                and enter_time = #{userPaper.enterTime}
+            </if>
+            <if test="null != userPaper.finishTime">
+                and finish_time = #{userPaper.finishTime}
+            </if>
+            <if test="null != userPaper.score">
+                and score = #{userPaper.score}
+            </if>
+        </where>
+    </select>
+
+    <select id="getQuestionByExamId" resultType="com.yongoe.ecy.exam.entity.Question">
+        SELECT e_question.*,
+               e_exam_question.score,
+               e_user_question.answer  as my_answer,
+               e_user_question.score   as my_score,
+               e_user_question.is_true as is_true
+        FROM e_question
+                 LEFT JOIN e_exam_question ON e_question.id = e_exam_question.question_id
+                 left join e_user_question on e_question.id = e_user_question.question_id
+        WHERE e_question.type = #{type}
+          and e_user_question.user_id = #{userId}
+          AND e_user_question.exam_id = #{examId}
+          and e_exam_question.exam_id = #{examId}
+          AND e_question.id IN (SELECT question_id FROM e_exam_question WHERE exam_id = #{examId})
+        ORDER BY e_question.TYPE
+    </select>
+    <select id="export" resultType="com.yongoe.ecy.exam.controller.vo.excel.UserPaperExcel">
+        SELECT
+        e_exam.exam_name as exam_name,
+        sys_user.name as name,
+        e_user_paper.status,
+        e_user_paper.enter_time,
+        e_user_paper.finish_time,
+        e_user_paper.score,
+        basic_department.name as dept_name
+        FROM e_user_paper
+        LEFT JOIN sys_user on e_user_paper.user_id = sys_user.id
+        LEFT JOIN e_exam on e_user_paper.exam_id = e_exam.id
+        LEFT JOIN basic_department on sys_user.department_id = basic_department.id
+        WHERE 1=1
+        <if test="null != examId">
+            and e_user_paper.exam_id = #{examId}
+        </if>
+    </select>
+
+</mapper>

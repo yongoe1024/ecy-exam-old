@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.ExamDeptMapper">
+
+    <!--    获取分页数据-->
+    <select id="getExamDeptByPage" resultType="com.yongoe.ecy.exam.entity.ExamDept">
+        select
+        id, exam_id, department_id
+        from e_exam_dept
+        <where>
+            <if test="null != examDept.id">
+                and id = #{examDept.id}
+            </if>
+            <if test="null != examDept.examId">
+                and exam_id = #{examDept.examId}
+            </if>
+            <if test="null != examDept.departmentId">
+                and department_id = #{examDept.departmentId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.UserQuestionMapper">
+
+    <!--    获取分页数据-->
+    <select id="getUserQuestionByPage" resultType="com.yongoe.ecy.exam.entity.UserQuestion">
+        select
+                id, user_id, exam_id, question_id, answer, score, is_true
+        from  e_user_question
+        <where>
+            <if test="null != userQuestion.id">
+                and id = #{userQuestion.id}
+            </if>
+            <if test="null != userQuestion.userId">
+                and user_id = #{userQuestion.userId}
+            </if>
+            <if test="null != userQuestion.examId">
+                and exam_id = #{userQuestion.examId}
+            </if>
+            <if test="null != userQuestion.questionId">
+                and question_id = #{userQuestion.questionId}
+            </if>
+            <if test="null != userQuestion.answer and ''!=userQuestion.answer">
+                and answer LIKE CONCAT('%',#{userQuestion.answer  },'%')
+            </if>
+            <if test="null != userQuestion.score">
+                and score = #{userQuestion.score}
+            </if>
+            <if test="null != userQuestion.isTrue">
+                and is_true = #{userQuestion.isTrue}
+            </if>
+        </where>
+    </select>
+
+</mapper>

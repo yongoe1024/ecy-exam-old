@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.ExamUserMapper">
+
+    <!--    获取分页数据-->
+    <select id="getExamUserByPage" resultType="com.yongoe.ecy.exam.entity.ExamUser">
+        select
+        id, exam_id, user_id
+        from e_exam_user
+        <where>
+            <if test="null != examUser.id">
+                and id = #{examUser.id}
+            </if>
+            <if test="null != examUser.examId">
+                and exam_id = #{examUser.examId}
+            </if>
+            <if test="null != examUser.userId">
+                and user_id = #{examUser.userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

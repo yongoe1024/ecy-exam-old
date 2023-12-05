@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.ExamQuestionMapper">
+
+    <!--    获取分页数据-->
+    <select id="getExamQuestionByPage" resultType="com.yongoe.ecy.exam.entity.ExamQuestion">
+        select
+        id, exam_id, question_id, score
+        from e_exam_question
+        <where>
+            <if test="null != examQuestion.id">
+                and id = #{examQuestion.id}
+            </if>
+            <if test="null != examQuestion.examId">
+                and exam_id = #{examQuestion.examId}
+            </if>
+            <if test="null != examQuestion.questionId">
+                and question_id = #{examQuestion.questionId}
+            </if>
+            <if test="null != examQuestion.score">
+                and score = #{examQuestion.score}
+            </if>
+        </where>
+    </select>
+
+</mapper>

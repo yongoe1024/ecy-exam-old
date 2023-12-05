@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.QuestionMapper">
+
+    <!--    获取分页数据-->
+    <select id="getQuestionByPage" resultType="com.yongoe.ecy.exam.entity.Question">
+        select
+        e_question.*,e_question_bank.name as question_bank_name
+        from e_question left join e_question_bank on e_question.question_bank_id = e_question_bank.id
+        <where>
+            <if test="null != question.id">
+                and e_question.id = #{question.id}
+            </if>
+            <if test="null != question.questionBankId">
+                and e_question.question_bank_id = #{question.questionBankId}
+            </if>
+            <if test="null != question.content and ''!=question.content">
+                and e_question.content LIKE CONCAT('%',#{question.content  },'%')
+            </if>
+            <if test="null != question.type and ''!=question.type">
+                and e_question.type LIKE CONCAT('%',#{question.type  },'%')
+            </if>
+            <if test="null != question.level and ''!=question.level">
+                and e_question.level LIKE CONCAT('%',#{question.level  },'%')
+            </if>
+            <if test="null != question.answer and ''!=question.answer">
+                and e_question.answer LIKE CONCAT('%',#{question.answer  },'%')
+            </if>
+            <if test="null != question.createTime">
+                and e_question.create_time = #{question.createTime}
+            </if>
+            <if test="null != question.updateTime">
+                and e_question.update_time = #{question.updateTime}
+            </if>
+            <if test="null != question.createBy and ''!=question.createBy">
+                and e_question.create_by LIKE CONCAT('%',#{question.createBy  },'%')
+            </if>
+            <if test="null != question.updateBy and ''!=question.updateBy">
+                and e_question.update_by LIKE CONCAT('%',#{question.updateBy  },'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

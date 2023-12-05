@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yongoe.ecy.exam.mapper.QuestionBankMapper">
+
+    <!--    获取分页数据-->
+    <select id="getQuestionBankByPage" resultType="com.yongoe.ecy.exam.entity.QuestionBank">
+        select
+        id, name, remark, create_time, update_time, create_by, update_by
+        from e_question_bank
+        <where>
+            <if test="null != questionBank.id">
+                and id = #{questionBank.id}
+            </if>
+            <if test="null != questionBank.name and ''!=questionBank.name">
+                and name LIKE CONCAT('%',#{questionBank.name  },'%')
+            </if>
+            <if test="null != questionBank.remark and ''!=questionBank.remark">
+                and remark LIKE CONCAT('%',#{questionBank.remark  },'%')
+            </if>
+            <if test="null != questionBank.createTime">
+                and create_time = #{questionBank.createTime}
+            </if>
+            <if test="null != questionBank.updateTime">
+                and update_time = #{questionBank.updateTime}
+            </if>
+            <if test="null != questionBank.createBy and ''!=questionBank.createBy">
+                and create_by LIKE CONCAT('%',#{questionBank.createBy  },'%')
+            </if>
+            <if test="null != questionBank.updateBy and ''!=questionBank.updateBy">
+                and update_by LIKE CONCAT('%',#{questionBank.updateBy  },'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
