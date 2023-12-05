@@ -53,6 +53,14 @@
                  plain
                  @click="handleShowAddEdit"
                  icon="el-icon-plus">添加</el-button>
+      <e-upload size="mini"
+                url="/system/user/upload"
+                @success="getList"></e-upload>
+      <el-button type="warning"
+                 icon="el-icon-download"
+                 plain
+                 size="mini"
+                 @click="handleExport">导出模板</el-button>
     </div>
 
     <!-- 表格 -->
@@ -299,6 +307,9 @@ export default {
     this.getList()
   },
   methods: {
+    handleExport () {
+      this.$downloadRequest('/system/user/export')
+    },
     reset () {
       this.form = this.$options.data().form
     },

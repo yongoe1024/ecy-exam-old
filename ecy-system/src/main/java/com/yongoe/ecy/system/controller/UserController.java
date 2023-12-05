@@ -3,23 +3,37 @@ package com.yongoe.ecy.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yongoe.ecy.basic.entity.Department;
+import com.yongoe.ecy.basic.entity.Position;
+import com.yongoe.ecy.basic.service.DepartmentService;
+import com.yongoe.ecy.basic.service.PositionService;
+import com.yongoe.ecy.system.controller.vo.excel.UserExcel;
 import com.yongoe.ecy.system.controller.vo.req.UserReq;
 import com.yongoe.ecy.system.controller.vo.res.UserRes;
 import com.yongoe.ecy.system.convert.UserConvert;
+import com.yongoe.ecy.system.entity.Role;
 import com.yongoe.ecy.system.entity.User;
 import com.yongoe.ecy.system.entity.UserAuths;
 import com.yongoe.ecy.system.entity.UserRole;
 import com.yongoe.ecy.system.mapper.UserAuthsMapper;
 import com.yongoe.ecy.system.mapper.UserRoleMapper;
+import com.yongoe.ecy.system.service.RoleService;
 import com.yongoe.ecy.system.service.UserService;
+import com.yongoe.ecy.utils.ExcelUtils;
 import com.yongoe.ecy.utils.PageUtils;
 import com.yongoe.ecy.utils.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户
@@ -39,6 +53,12 @@ public class UserController {
     private UserRoleMapper userRoleMapper;
     @Resource
     private UserConvert convert;
+    @Resource
+    private DepartmentService departmentService;
+    @Resource
+    private PositionService positionService;
+    @Resource
+    private RoleService roleService;
 
     @Operation(summary = "查询分页数据")
     @PostMapping("/page")
@@ -101,4 +121,47 @@ public class UserController {
         return R.success("删除成功");
     }
 
+    @Operation(summary = "导入数据")
+    @Transactional(rollbackFor = RuntimeException.class)
+    @PostMapping("/upload")
+    public R upload(MultipartFile file) {
+        List<UserExcel> excelList = ExcelUtils.upload(file, UserExcel.class);
+        List<User> userList = new ArrayList<>();
+        for (UserExcel excel : excelList) {
+            User user = new User();
+            //查询部门
+            Department department = departmentService.getOne(new LambdaUpdateWrapper<Department>().eq(Department::getName, excel.getDepartmentName()));
+            Position position = positionService.getOne(new LambdaUpdateWrapper<Position>().eq(Position::getName, excel.getPositionName()));
+            if (StringUtils.isEmpty(excel.getRoleName())) {
+                excel.setRoleName("学生");
+            }
+            Role role = roleService.getOne(new LambdaUpdateWrapper<Role>().eq(Role::getName, excel.getRoleName()));
+            if (department != null)
+                user.setDepartmentId(department.getId());
+            if (position != null)
+                user.setPositionId(position.getId());
+
+            user.setUsername(excel.getUsername());
+            user.setPassword(excel.getPassword());
+            user.setName(excel.getName());
+            user.setAvatar("/");
+            user.setPhone(excel.getPhone());
+            user.setEmail(excel.getEmail());
+            user.setEnabled(true);
+            userList.add(user);
+            userService.save(user);
+            if (role != null) {
+                List<Long> list = List.of(role.getId());
+                userService.updateUserRole(user.getId(), list);
+            }
+        }
+
+        return R.success("导入成功");
+    }
+
+    @Operation(summary = "导出模板")
+    @PostMapping("/export")
+    public void export(HttpServletResponse response) {
+        ExcelUtils.export(response, new ArrayList<>(), UserExcel.class);
+    }
 }
