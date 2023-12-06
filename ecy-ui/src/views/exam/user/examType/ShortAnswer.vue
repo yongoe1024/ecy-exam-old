@@ -1,7 +1,7 @@
 <template>
-  <div class="TrueFalse">
-    <span class="ql-editor"
-          v-html="question.content"></span>
+  <div>
+    <div class="ql-editor"
+         v-html="question.content"></div>
     <el-divider></el-divider>
     <e-editor v-model="myValue"></e-editor>
   </div>
@@ -27,6 +27,7 @@ export default {
       immediate: true,
       handler (nv) {
         this.myValue = nv
+        this.getAnswer()
       },
     },
     myValue: {
@@ -39,19 +40,26 @@ export default {
   data () {
     return {
       myValue: '',
+      answerList: []
     }
   },
-  mounted () { },
-  methods: {},
+  mounted () {
+  },
+  methods: {
+    getAnswer () {
+      this.axios.post(`/exam/userpaper/getAnswer?questionId=${this.question.id}`).then(data => {
+        this.answerList = data
+      }).catch(e => { })
+    },
+  },
 }
 
 </script>
-<style >
-.TrueFalse {
-  width: 100%;
-  min-height: 70%;
+<style scoped >
+.ql-editor {
+  min-height: 10px;
 }
-.TrueFalse img {
-  width: 90%;
+.ql-editor >>> img {
+  max-width: 100%;
 }
 </style>

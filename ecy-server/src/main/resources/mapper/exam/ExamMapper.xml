@@ -52,6 +52,7 @@
                 and update_by LIKE CONCAT('%',#{exam.updateBy  },'%')
             </if>
         </where>
+        order by id desc
     </select>
 
 </mapper>

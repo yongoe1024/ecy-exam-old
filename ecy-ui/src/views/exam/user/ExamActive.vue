@@ -1,9 +1,9 @@
 <template>
   <div class="box">
-    <el-row :gutter="20">
+    <el-row style="padding:10px;">
       <el-col :offset="1"
-              class="hidden-sm-and-down"
-              :span="5">
+              :span="5"
+              class="hidden-sm-and-down col">
         <el-row>
           <el-card class="left"
                    v-if="question.singleChoice.length!=0">
@@ -67,7 +67,8 @@
       </el-col>
 
       <el-col :sm="24"
-              :md="12">
+              :md="12"
+              class="col">
         <el-card>
           <div slot="header">
             <span>题目分值：{{present.score}}</span>
@@ -101,7 +102,7 @@
 
       </el-col>
       <el-col :span="5"
-              class="hidden-sm-and-down">
+              class="hidden-sm-and-down col">
         <el-card>
           <h3>{{exam.examRes.examName}}</h3>
           <div style="font-size: 14px;">及格分: {{exam.examRes.passScore}}</div>
@@ -135,10 +136,10 @@
 <script>
 import 'element-ui/lib/theme-chalk/display.css'
 import "./disable.js"
-import SingleChoice from '../question/type/SingleChoice.vue'
-import MultipleChoice from '../question/type/MultipleChoice.vue'
-import TrueFalse from '../question/type/TrueFalse.vue'
-import ShortAnswer from '../question/type/ShortAnswer.vue'
+import SingleChoice from './examType/SingleChoice.vue'
+import MultipleChoice from './examType/MultipleChoice.vue'
+import TrueFalse from './examType/TrueFalse.vue'
+import ShortAnswer from './examType/ShortAnswer.vue'
 export default {
   components: { MultipleChoice, SingleChoice, TrueFalse, ShortAnswer, TrueFalse, },
   computed: {},
@@ -201,15 +202,13 @@ export default {
     handPaper () {
       //提交最后一道题
       let form = {
-        answer: present.myAnswer,
+        answer: this.present.myAnswer,
         examId: this.examId,
-        questionId: present.id
+        questionId: this.present.id
       }
       this.axios.post('/exam/userquestion/answer', form).then(data => {
         this.axios.post(`/exam/userpaper/handPaper?examId=${this.examId}`).then(data => {
-          getExam()
-          this.deadlineEnable = false
-          location.reload()
+          this.getExam()
         }).catch(e => { })
       }).catch(e => { })
     },
@@ -283,9 +282,12 @@ export default {
   min-height: 100vh;
   background: #eff3f7;
 }
+.col {
+  margin-right: 10px;
+}
 .left {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .tag {
   margin: 5px;

@@ -7,23 +7,28 @@
              v-html="question.content"></div>
       </el-col>
     </el-row>
-    <el-checkbox-group v-model="myAnswer">
-      <el-checkbox v-for="(item, index) in answerList"
-                   :key="index"
-                   class="answer"
-                   :class="getClass(item)"
-                   border
-                   :label="item.id">
+
+    <div v-for="(item, index) in answerList"
+         :key="index">
+      <el-radio v-model="myAnswer"
+                class="answer"
+                border
+                :class="getClass(item)"
+                :label="item.id">
         <span>{{`${String.fromCharCode(65+index)}. `}}</span>
         <span class="ql-editor"
               style="display:inline-block;width: 90%;"
               v-html="item.content"></span>
-      </el-checkbox>
-    </el-checkbox-group>
+      </el-radio>
+    </div>
+
     <div style="float:right;margin:5px">
-      得分：<el-input-number :min="0"
-                       :max="question.score"
-                       v-model="question.myScore"></el-input-number>
+      得分：<el-link v-if="question.isTrue"
+               style="font-size:30px"
+               type="success">{{question.myScore}}</el-link>
+      <el-link v-else
+               style="font-size:30px"
+               type="danger">{{question.myScore}}</el-link>
     </div>
   </div>
 </template>
@@ -45,8 +50,8 @@ export default {
       handler (nv) {
         if (nv) {
           // 我的答案
-          this.myAnswer = JSON.parse(nv.myAnswer)
-          this.answer = JSON.parse(nv.answer)
+          this.myAnswer = nv.myAnswer
+          this.answer = nv.answer
         }
       },
     },
@@ -54,8 +59,8 @@ export default {
   data () {
     return {
       //我的答案
-      myAnswer: [],
-      answer: [],
+      myAnswer: '',
+      answer: '',
       //答案列表
       answerList: [],
     }
@@ -64,10 +69,10 @@ export default {
   methods: {
     getClass (item) {
       //判断答案是否在正确答案中
-      if (this.answer.indexOf(item.id) !== -1) {
+      if (this.answer == item.id) {
         return 'background'
       }
-      if (this.myAnswer.indexOf(item.id) !== -1) {
+      if (this.myAnswer == item.id) {
         return 'background2'
       }
 
@@ -96,10 +101,9 @@ export default {
   white-space: pre-wrap;
   line-height: 1.5;
 }
-.el-checkbox.is-bordered {
-  margin-left: 0px !important;
-  min-height: 65px !important;
+.el-radio.is-bordered {
   height: auto !important;
+  min-height: 65px;
 }
 .background {
   background-color: rgb(130, 229, 130);

@@ -61,5 +61,5 @@ public class QuestionRes {
 
     private String myScore;
 
-    private String isTrue;
+    private Boolean isTrue;
 }

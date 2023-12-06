@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     examInfo (examId) {
-      this.$router.push({ path: '/exam-user-ExamInfo', query: { examId: examId } })
+      this.$router.push({ path: '/exam-user-ExamDetails', query: { examId: examId } })
     },
     kaoshi (examId) {
       const href = this.$router.resolve({

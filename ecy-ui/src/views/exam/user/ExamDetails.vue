@@ -2,32 +2,39 @@
   <div class="box">
     <el-page-header @back="$router.back()"
                     style="margin-bottom:30px"></el-page-header>
-    <el-row :gutter="20">
+    <el-row>
+      <el-col :offset="1"
+              :span="20">
+        <el-card>
+          <div style="font-size: 14px;">及格分: {{exam.examRes.passScore}}</div>
+          <div style="font-size: 14px;">试卷总分: {{exam.examRes.totalScore}}</div>
+          <el-divider></el-divider>
+          <div style="font-size: 14px;">得分: {{exam.score}}</div>
 
-      <el-col :offset="2"
+        </el-card>
+      </el-col>
+
+      <el-col :offset="1"
               :span="20">
         <div v-for="(item, index) in questionList"
              :key="index">
-          <el-card style="margin:10px">
+          <el-card style="margin-bottom:10px">
             <div slot="header">
               <span>第{{index+1}}题</span>
               <el-tag style="float: right;"> {{item.score}}分</el-tag>
+              <el-tag style="float: right;margin-right:30px">{{item.type}}</el-tag>
             </div>
             <div v-if="item.type === '单选'">
-              <single-choice :question="item"
-                             v-model="item.myAnswer"></single-choice>
+              <single-choice :question="item"></single-choice>
             </div>
             <div v-if="item.type === '多选'">
-              <multiple-choice :question="item"
-                               v-model="item.myAnswer"></multiple-choice>
+              <multiple-choice :question="item"></multiple-choice>
             </div>
             <div v-if="item.type === '判断'">
-              <true-false :question="item"
-                          v-model="item.myAnswer"></true-false>
+              <true-false :question="item"></true-false>
             </div>
             <div v-if="item.type === '简答'">
-              <short-answer :question="item"
-                            v-model="item.myAnswer"></short-answer>
+              <short-answer :question="item"></short-answer>
             </div>
           </el-card>
         </div>
@@ -38,10 +45,10 @@
 
 
 <script>
-import SingleChoice from './type/SingleChoice.vue'
-import MultipleChoice from './type/MultipleChoice.vue'
-import TrueFalse from './type/TrueFalse.vue'
-import ShortAnswer from './type/ShortAnswer.vue'
+import SingleChoice from './detailsType/SingleChoice.vue'
+import MultipleChoice from './detailsType/MultipleChoice.vue'
+import TrueFalse from './detailsType/TrueFalse.vue'
+import ShortAnswer from './detailsType/ShortAnswer.vue'
 export default {
   components: { MultipleChoice, SingleChoice, TrueFalse, ShortAnswer, TrueFalse, },
   computed: {},
@@ -92,6 +99,7 @@ export default {
 </script>
 <style scoped>
 .box {
-  min-height: 100vh;
+  background: #e5ecf3;
+  margin: -20px;
 }
 </style>

@@ -2,6 +2,7 @@ package com.yongoe.ecy.exam.service;
 
 import com.yongoe.ecy.exam.controller.vo.excel.UserPaperExcel;
 import com.yongoe.ecy.exam.controller.vo.req.SubmitScoreReq;
+import com.yongoe.ecy.exam.entity.QuestionOption;
 import com.yongoe.ecy.exam.entity.UserPaper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -44,4 +45,6 @@ public interface UserPaperService extends IService<UserPaper> {
     void submitScore(Long examId,Long userId,List<SubmitScoreReq> scoreReq);
 
     List<UserPaperExcel> export(Long examId);
+
+    List<QuestionOption> getAnswer(Long questionId);
 }

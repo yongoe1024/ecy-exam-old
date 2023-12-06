@@ -21,9 +21,12 @@
       </el-checkbox>
     </el-checkbox-group>
     <div style="float:right;margin:5px">
-      得分：<el-input-number :min="0"
-                       :max="question.score"
-                       v-model="question.myScore"></el-input-number>
+      得分：<el-link v-if="question.isTrue"
+               style="font-size:30px"
+               type="success">{{question.myScore}}</el-link>
+      <el-link v-else
+               style="font-size:30px"
+               type="danger">{{question.myScore}}</el-link>
     </div>
   </div>
 </template>

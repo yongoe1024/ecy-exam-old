@@ -81,10 +81,10 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             auth.put("examUserList", list1);
         }
         //题目
-        List<Question> singleChoice = baseMapper.getQuestionByExamId(examId, "单选");
-        List<Question> multipleChoice = baseMapper.getQuestionByExamId(examId, "多选");
-        List<Question> trueFalse = baseMapper.getQuestionByExamId(examId, "判断");
-        List<Question> shortAnswer = baseMapper.getQuestionByExamId(examId, "简答");
+        int singleChoice = baseMapper.getQuestionByExamId(examId, "单选").size();
+        int multipleChoice = baseMapper.getQuestionByExamId(examId, "多选").size();
+        int trueFalse = baseMapper.getQuestionByExamId(examId, "判断").size();
+        int shortAnswer = baseMapper.getQuestionByExamId(examId, "简答").size();
         question.put("singleChoice", singleChoice);
         question.put("multipleChoice", multipleChoice);
         question.put("trueFalse", trueFalse);

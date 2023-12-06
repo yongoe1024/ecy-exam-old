@@ -6,10 +6,13 @@ import com.yongoe.ecy.exam.controller.vo.excel.UserPaperExcel;
 import com.yongoe.ecy.exam.controller.vo.req.SubmitScoreReq;
 import com.yongoe.ecy.exam.controller.vo.req.UserPaperReq;
 import com.yongoe.ecy.exam.controller.vo.res.ExamRes;
+import com.yongoe.ecy.exam.controller.vo.res.QuestionOptionRes;
 import com.yongoe.ecy.exam.controller.vo.res.UserPaperRes;
 import com.yongoe.ecy.exam.convert.ExamConvert;
+import com.yongoe.ecy.exam.convert.QuestionOptionConvert;
 import com.yongoe.ecy.exam.convert.UserPaperConvert;
 import com.yongoe.ecy.exam.entity.Exam;
+import com.yongoe.ecy.exam.entity.QuestionOption;
 import com.yongoe.ecy.exam.entity.UserPaper;
 import com.yongoe.ecy.exam.service.ExamService;
 import com.yongoe.ecy.exam.service.UserPaperService;
@@ -48,6 +51,8 @@ public class UserPaperController {
     private ExamConvert examConvert;
     @Resource
     private UserService userService;
+    @Resource
+    private QuestionOptionConvert questionOptionConvert;
 
 
     @Operation(summary = "交卷")
@@ -55,6 +60,14 @@ public class UserPaperController {
     public R handPaper(Long examId) {
         userPaperService.handPaper(examId);
         return R.success("成功交卷");
+    }
+
+    @Operation(summary = "考试界面获取题目答案")
+    @PostMapping("/getAnswer")
+    public R getAnswer(Long questionId) {
+        List<QuestionOption> list = userPaperService.getAnswer(questionId);
+        List<QuestionOptionRes> questionOptionRes = questionOptionConvert.entity2ResList(list);
+        return R.success().put(questionOptionRes);
     }
 
     @Operation(summary = "考试界面获取题目")
@@ -132,7 +145,7 @@ public class UserPaperController {
     @Operation(summary = "导出数据")
     @PostMapping("/export/{examId}")
     public void export(@PathVariable Long examId, HttpServletResponse response) {
-        List<UserPaperExcel> excel=  userPaperService.export(examId);
+        List<UserPaperExcel> excel = userPaperService.export(examId);
         ExcelUtils.export(response, excel, UserPaperExcel.class);
     }
 

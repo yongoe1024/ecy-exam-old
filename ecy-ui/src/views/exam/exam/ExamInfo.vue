@@ -9,10 +9,10 @@
       <el-descriptions :column="2"
                        style="width: 80%;"
                        border>
-        <el-descriptions-item label="单选">{{question.singleChoice.length}}</el-descriptions-item>
-        <el-descriptions-item label="多选">{{question.multipleChoice.length}}</el-descriptions-item>
-        <el-descriptions-item label="判断">{{question.trueFalse.length}}</el-descriptions-item>
-        <el-descriptions-item label="简答">{{question.shortAnswer.length}}</el-descriptions-item>
+        <el-descriptions-item label="单选">{{question.singleChoice}}</el-descriptions-item>
+        <el-descriptions-item label="多选">{{question.multipleChoice}}</el-descriptions-item>
+        <el-descriptions-item label="判断">{{question.trueFalse}}</el-descriptions-item>
+        <el-descriptions-item label="简答">{{question.shortAnswer}}</el-descriptions-item>
       </el-descriptions>
     </el-card>
 

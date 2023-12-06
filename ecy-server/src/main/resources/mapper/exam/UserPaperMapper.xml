@@ -30,6 +30,7 @@
                 and score = #{userPaper.score}
             </if>
         </where>
+        order by id desc
     </select>
 
     <select id="getQuestionByExamId" resultType="com.yongoe.ecy.exam.entity.Question">
@@ -48,6 +49,7 @@
           AND e_question.id IN (SELECT question_id FROM e_exam_question WHERE exam_id = #{examId})
         ORDER BY e_question.TYPE
     </select>
+
     <select id="export" resultType="com.yongoe.ecy.exam.controller.vo.excel.UserPaperExcel">
         SELECT
         e_exam.exam_name as exam_name,
@@ -65,6 +67,22 @@
         <if test="null != examId">
             and e_user_paper.exam_id = #{examId}
         </if>
+    </select>
+    <select id="getQuestionFinishByExamId" resultType="com.yongoe.ecy.exam.entity.Question">
+        SELECT e_question.*,
+               e_exam_question.score,
+               e_user_question.answer  as my_answer,
+               e_user_question.score   as my_score,
+               e_user_question.is_true as is_true
+        FROM e_question
+                 LEFT JOIN e_exam_question ON e_question.id = e_exam_question.question_id
+                 left join e_user_question on e_question.id = e_user_question.question_id
+        WHERE e_question.type = #{type}
+          and e_user_question.user_id = #{userId}
+          AND e_user_question.exam_id = #{examId}
+          and e_exam_question.exam_id = #{examId}
+          AND e_question.id IN (SELECT question_id FROM e_exam_question WHERE exam_id = #{examId})
+        ORDER BY e_question.TYPE
     </select>
 
 </mapper>

@@ -47,7 +47,7 @@ public class Question {
     private String myScore;
 
     @TableField(exist = false)
-    private String isTrue;
+    private Boolean isTrue;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

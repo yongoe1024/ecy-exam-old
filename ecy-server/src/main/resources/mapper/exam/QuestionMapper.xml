@@ -39,6 +39,7 @@
                 and e_question.update_by LIKE CONCAT('%',#{question.updateBy  },'%')
             </if>
         </where>
+        order by id desc
     </select>
 
 </mapper>

@@ -34,7 +34,7 @@ public class ExamController {
     @Resource
     private ExamConvert examConvert;
 
-    @Operation(summary = "考试详情")
+    @Operation(summary = "管理员考试详情")
     @PostMapping("/info/{examId}")
     public R info(@PathVariable Long examId) {
         Map<String, Object> map = examService.getExamInfo(examId);

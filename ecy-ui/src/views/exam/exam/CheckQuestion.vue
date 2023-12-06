@@ -2,8 +2,7 @@
   <div class="box">
     <el-page-header @back="$router.back()"
                     style="margin-bottom:30px"></el-page-header>
-    <el-row :gutter="20">
-
+    <el-row>
       <el-col :offset="2"
               :span="20">
         <div v-for="(item, index) in questionList"
@@ -12,6 +11,7 @@
             <div slot="header">
               <span>第{{index+1}}题</span>
               <el-tag style="float: right;"> {{item.score}}分</el-tag>
+              <el-tag style="float: right;margin-right:30px">{{item.type}}</el-tag>
             </div>
             <div v-if="item.type === '单选'">
               <single-choice :question="item"
@@ -107,6 +107,8 @@ export default {
 </script>
 <style scoped>
 .box {
+  background: #e5ecf3;
   min-height: 100vh;
+  margin: -20px;
 }
 </style>

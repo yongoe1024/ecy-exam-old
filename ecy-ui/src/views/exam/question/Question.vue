@@ -67,7 +67,7 @@
                        align="center">
         <template slot-scope="scope">
           <div v-html="scope.row.content"
-               style="max-height:100px;"></div>
+               class="content"></div>
         </template>
       </el-table-column>
       <el-table-column prop="type"
@@ -83,7 +83,7 @@
                        width="200"
                        fixed="right">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.type == '单选' || scope.row.type == '多选' || scope.row.type == '判断'"
+          <el-button v-if="scope.row.type == '单选' || scope.row.type == '多选' || scope.row.type == '判断' "
                      type="text"
                      size="mini"
                      @click="$router.push( '/exam-question-QuestionOption?questionId='+scope.row.id)">选项</el-button>
@@ -157,10 +157,8 @@
                       prop="content">
           <e-editor v-model="form.content"></e-editor>
         </el-form-item>
-        <el-alert title="若为简答题，此项无实际用途，为教师参考答案"
-                  type="warning">
-        </el-alert>
-        <el-form-item label="正确答案"
+        <el-form-item label="参考答案"
+                      v-if="form.type=='简答'"
                       prop="answer">
           <e-editor v-model="form.answer"></e-editor>
         </el-form-item>
@@ -310,5 +308,11 @@ export default {
 }
 .button * {
   margin: 0 8px 0 0;
+}
+.content {
+  max-height: 100px;
+}
+.content >>> img {
+  display: none;
 }
 </style>

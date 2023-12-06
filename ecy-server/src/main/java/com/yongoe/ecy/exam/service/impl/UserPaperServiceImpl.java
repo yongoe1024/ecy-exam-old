@@ -1,17 +1,17 @@
 package com.yongoe.ecy.exam.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yongoe.ecy.exam.controller.vo.excel.UserPaperExcel;
 import com.yongoe.ecy.exam.controller.vo.req.SubmitScoreReq;
+import com.yongoe.ecy.exam.controller.vo.res.QuestionBankRes;
 import com.yongoe.ecy.exam.convert.QuestionConvert;
-import com.yongoe.ecy.exam.entity.Exam;
-import com.yongoe.ecy.exam.entity.Question;
-import com.yongoe.ecy.exam.entity.UserPaper;
-import com.yongoe.ecy.exam.entity.UserQuestion;
+import com.yongoe.ecy.exam.entity.*;
 import com.yongoe.ecy.exam.mapper.UserPaperMapper;
 import com.yongoe.ecy.exam.service.ExamService;
+import com.yongoe.ecy.exam.service.QuestionOptionService;
 import com.yongoe.ecy.exam.service.UserPaperService;
 import com.yongoe.ecy.exam.service.UserQuestionService;
 import com.yongoe.ecy.utils.UserUtils;
@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * 用户-考试
@@ -39,6 +40,8 @@ public class UserPaperServiceImpl extends ServiceImpl<UserPaperMapper, UserPaper
     @Lazy
     @Resource
     private ExamService examService;
+    @Resource
+    private QuestionOptionService questionOptionService;
 
     @Override
     public Page<UserPaper> getUserPaperByPage(Page<UserPaper> page, UserPaper userPaper) {
@@ -56,8 +59,11 @@ public class UserPaperServiceImpl extends ServiceImpl<UserPaperMapper, UserPaper
     public Map<String, Object> getQuestion(Long examId) {
         Long userId = UserUtils.getUserId();
         List<Question> singleChoice = baseMapper.getQuestionByExamId(examId, userId, "单选");
+        process(singleChoice);
         List<Question> multipleChoice = baseMapper.getQuestionByExamId(examId, userId, "多选");
+        process2(multipleChoice);
         List<Question> trueFalse = baseMapper.getQuestionByExamId(examId, userId, "判断");
+        process(trueFalse);
         List<Question> shortAnswer = baseMapper.getQuestionByExamId(examId, userId, "简答");
         HashMap<String, Object> map = new HashMap<>();
         map.put("singleChoice", questionConvert.entity2ResList(singleChoice));
@@ -70,8 +76,11 @@ public class UserPaperServiceImpl extends ServiceImpl<UserPaperMapper, UserPaper
     @Override
     public Map<String, Object> getQuestionByUserId(Long examId, Long userId) {
         List<Question> singleChoice = baseMapper.getQuestionByExamId(examId, userId, "单选");
+        process(singleChoice);
         List<Question> multipleChoice = baseMapper.getQuestionByExamId(examId, userId, "多选");
+        process2(multipleChoice);
         List<Question> trueFalse = baseMapper.getQuestionByExamId(examId, userId, "判断");
+        process(trueFalse);
         List<Question> shortAnswer = baseMapper.getQuestionByExamId(examId, userId, "简答");
         HashMap<String, Object> map = new HashMap<>();
         map.put("singleChoice", questionConvert.entity2ResList(singleChoice));
@@ -80,6 +89,34 @@ public class UserPaperServiceImpl extends ServiceImpl<UserPaperMapper, UserPaper
         map.put("shortAnswer", questionConvert.entity2ResList(shortAnswer));
         return map;
     }
+
+    /**
+     * 处理题目选项-单选-判断
+     */
+    private List<Question> process(List<Question> list) {
+        for (Question record : list) {
+            QuestionOption one = questionOptionService.getOne(new LambdaQueryWrapper<QuestionOption>()
+                    .eq(QuestionOption::getQuestionId, record.getId())
+                    .eq(QuestionOption::getIsTrue, true));
+            record.setAnswer(String.valueOf(one.getId()));
+        }
+        return list;
+    }
+
+    /**
+     * 处理题目选项-多选
+     */
+    private List<Question> process2(List<Question> list) {
+        for (Question record : list) {
+            List<QuestionOption> list1 = questionOptionService.list(new LambdaQueryWrapper<QuestionOption>()
+                    .eq(QuestionOption::getQuestionId, record.getId())
+                    .eq(QuestionOption::getIsTrue, true));
+            List<Long> longs = list1.stream().map(QuestionOption::getId).toList();
+            record.setAnswer(JSON.toJSONString(String.valueOf(longs)));
+        }
+        return list;
+    }
+
 
     @Override
     public void handPaper(Long examId) {
@@ -133,6 +170,11 @@ public class UserPaperServiceImpl extends ServiceImpl<UserPaperMapper, UserPaper
     public List<UserPaperExcel> export(Long examId) {
         List<UserPaperExcel> list = baseMapper.export(examId);
         return list;
+    }
+
+    @Override
+    public List<QuestionOption> getAnswer(Long questionId) {
+        return questionOptionService.list(new LambdaQueryWrapper<QuestionOption>().eq(QuestionOption::getQuestionId, questionId));
     }
 
     @Override

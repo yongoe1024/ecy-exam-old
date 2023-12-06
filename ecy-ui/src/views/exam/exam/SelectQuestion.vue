@@ -132,7 +132,7 @@
                              align="center">
               <template slot-scope="scope">
                 <div v-html="scope.row.content"
-                     style="max-height:150px;"></div>
+                     class="content"></div>
               </template>
             </el-table-column>
             <el-table-column prop="type"
@@ -310,5 +310,11 @@ export default {
 }
 .head * {
   margin: 0 8px 8px 0;
+}
+.content {
+  max-height: 100px;
+}
+.content >>> img {
+  display: none;
 }
 </style>

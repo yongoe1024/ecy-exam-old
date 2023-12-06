@@ -3,24 +3,32 @@
     <el-page-header @back="$router.back()"
                     style="margin-bottom:30px"
                     content="题目选项"></el-page-header>
-    <el-card>
-      <div slot="header">
-        <span>题目</span>
-      </div>
-      <div class="ql-editor"
-           v-html="question.content">
-      </div>
-    </el-card>
-    <el-card>
-      <div slot="header">
-        <span>答案</span>
-      </div>
-      <div class="ql-editor"
-           v-html="question.answer">
-      </div>
-    </el-card>
+    <el-row>
+      <el-col :span="11">
+        <el-card>
+          <div slot="header">
+            <span>题目</span>
+          </div>
+          <div class="ql-editor"
+               v-html="question.content">
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="11"
+              :offset="1">
+        <el-card v-if="question.type=='单选' || question.type=='多选'">
+          <div slot="header">
+            <span>答案</span>
+          </div>
+          <div class="ql-editor"
+               v-html="question.answer">
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-button type="success"
                v-auth="'增'"
+               v-if="question.type=='单选' || question.type=='多选'"
                size="small"
                plain
                style="margin: 10px;"
@@ -42,7 +50,7 @@
                        align="center">
         <template slot-scope="scope">
           <div v-html="scope.row.content"
-               style="max-height:150px"></div>
+               class="content"></div>
         </template>
       </el-table-column>
       <el-table-column prop="isTrue"
@@ -72,6 +80,7 @@
                      @click="handleShowUpdateEdit(scope.row)">编辑</el-button>
           <el-button v-auth="'删'"
                      type="text"
+                     v-if="question.type=='单选' || question.type=='多选'"
                      size="mini"
                      icon="el-icon-delete"
                      @click="handleDelete(scope.row)">删除</el-button>
@@ -83,6 +92,7 @@
     <el-button style="margin-top: 8px"
                v-auth="'删'"
                type="danger"
+               v-if="question.type=='单选' || question.type=='多选'"
                size="small"
                :disabled="multipleSelection.length == 0"
                @click="handleDeleteMany">批量删除</el-button>
@@ -107,7 +117,12 @@
                :rules="rules">
         <el-form-item label="内容"
                       prop="content">
-          <e-editor v-model="form.content"></e-editor>
+
+          <e-editor v-if="question.type=='单选' || question.type=='多选'"
+                    v-model="form.content"></e-editor>
+          <el-input v-model="form.content"
+                    v-else
+                    disabled></el-input>
         </el-form-item>
         <el-form-item label="是否正确"
                       prop="isTrue">
@@ -260,5 +275,17 @@ export default {
 }
 .button * {
   margin: 0 8px 0 0;
+}
+.ql-editor {
+  min-height: 10px;
+}
+.ql-editor >>> img {
+  max-width: 300px;
+}
+.content {
+  max-height: 100px;
+}
+.content >>> img {
+  display: none;
 }
 </style>
