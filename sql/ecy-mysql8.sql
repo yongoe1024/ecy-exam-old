@@ -131,7 +131,7 @@ CREATE TABLE `basic_letter` (
                                 `addressee_id` bigint NOT NULL COMMENT '收件人id',
                                 `addressee` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '收件人',
                                 `title` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '标题',
-                                `content` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '内容',
+                                `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '内容',
                                 `state` tinyint(1) NOT NULL COMMENT '状态',
                                 `create_time` datetime NOT NULL COMMENT '创建时间',
                                 `update_time` datetime NOT NULL COMMENT '修改时间',
@@ -185,12 +185,13 @@ CREATE TABLE `e_exam` (
                           `create_by` varchar(50) NOT NULL COMMENT '创建人',
                           `update_by` varchar(50) NOT NULL COMMENT '修改人',
                           PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `e_exam` */
 
 insert  into `e_exam`(`id`,`exam_name`,`exam_desc`,`open_type`,`duration`,`start_time`,`end_time`,`total_score`,`pass_score`,`status`,`create_time`,`update_time`,`create_by`,`update_by`) values
-    (38,'sas','as','1',376,'2023-12-06 17:43:54','2023-12-07 00:00:00',11,11,'3','2023-12-06 17:43:59','2023-12-06 17:44:14','yongoe','yongoe');
+                                                                                                                                                                                               (38,'sas','as','1',376,'2023-12-06 17:43:54','2023-12-07 00:00:00',11,11,'4','2023-12-06 17:43:59','2023-12-07 08:49:05','yongoe','系统'),
+                                                                                                                                                                                               (39,'SaaS','是是是',NULL,10,'2023-12-07 09:05:26','2023-12-07 10:05:30',NULL,NULL,'1','2023-12-07 09:05:35','2023-12-07 09:05:35','yongoe','yongoe');
 
 /*Table structure for table `e_exam_dept` */
 
@@ -660,7 +661,7 @@ CREATE TABLE `sys_user` (
 /*Data for the table `sys_user` */
 
 insert  into `sys_user`(`id`,`department_id`,`position_id`,`username`,`password`,`name`,`avatar`,`email`,`phone`,`remark`,`last_ip`,`last_time`,`enabled`,`create_time`,`update_time`,`create_by`,`update_by`) values
-(1,6,1,'admin','111111','yongoe','/ecy-exam/file/2023/12/02/2629cc6d7aee4bc59fd9109775ada181.jpg','121887765@qq.com','10086','无','127.0.0.1','2023-12-06 20:46:24',1,'2023-01-01 00:00:00','2023-12-06 20:46:24','yongoe','yongoe'),
+(1,6,1,'admin','111111','yongoe','/ecy-exam/file/2023/12/02/2629cc6d7aee4bc59fd9109775ada181.jpg','121887765@qq.com','10086','无','127.0.0.1','2023-12-07 09:08:33',1,'2023-01-01 00:00:00','2023-12-07 09:08:33','yongoe','yongoe'),
 (2,1,1,'test','111111','test','/','111','2222',NULL,'127.0.0.1','2023-12-06 14:25:41',1,'2023-12-05 09:52:11','2023-12-06 14:25:41','yongoe','test');
 
 /*Table structure for table `sys_user_auths` */
