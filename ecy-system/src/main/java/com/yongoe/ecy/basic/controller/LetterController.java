@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 信件
@@ -67,9 +68,15 @@ public class LetterController {
     @PostMapping("/info")
     public R info(Long id) {
         Letter letter = letterService.getById(id);
+        if(letter == null)
+            return R.error("信件不存在");
         Long userId = UserUtils.getUserId();
+        Long addresserId = letter.getAddresserId();
+        Long addresseeId = letter.getAddresseeId();
+        if(!Objects.equals(userId, addresserId) && !Objects.equals(userId, addresseeId))
+            return R.error("信件不存在");
         //如果收件人是自己，就已读
-        if (letter.getAddresseeId().equals(userId)) {
+        if (addresseeId.equals(userId)) {
             letter.setState(true);
             letterService.updateById(letter);
         }
@@ -77,10 +84,23 @@ public class LetterController {
         return R.success().put(letterReq);
     }
 
-    @Operation(summary = "查询分页数据")
-    @PostMapping("/page")
-    public R page(Long current, Long size, @RequestBody LetterReq req) {
+    @Operation(summary = "查询分页数据-收件箱")
+    @PostMapping("/revc")
+    public R revc(Long current, Long size, @RequestBody LetterReq req) {
         Letter entity = letterConvert.req2Entity(req);
+        Long userId = UserUtils.getUserId();
+        entity.setAddresseeId(userId);
+        Page<Letter> page = letterService.getLetterByPage(Page.of(current, size), entity);
+        Page<LetterRes> resPage = letterConvert.entity2ResPage(page);
+        return R.success().put(new PageUtils(resPage));
+    }
+
+    @Operation(summary = "查询分页数据-发件箱")
+    @PostMapping("/send")
+    public R send(Long current, Long size, @RequestBody LetterReq req) {
+        Letter entity = letterConvert.req2Entity(req);
+        Long userId = UserUtils.getUserId();
+        entity.setAddresserId(userId);
         Page<Letter> page = letterService.getLetterByPage(Page.of(current, size), entity);
         Page<LetterRes> resPage = letterConvert.entity2ResPage(page);
         return R.success().put(new PageUtils(resPage));
