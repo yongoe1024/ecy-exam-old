@@ -156,9 +156,20 @@ export default {
                 return
               }
               for (var i = 0; i < this.bankForm.bankList.length; i++) {
-                if (this.bankForm.bankList[i].question.questionIdList.length == 0) {
-                  this.$message.error('题库中没有题目')
-                  return
+                if (this.bankForm.bankList.question.isAutoSelect) {
+                  let a = this.bankForm.bankList.question.singleChoice
+                  let b = this.bankForm.bankList.question.multipleChoice
+                  let c = this.bankForm.bankList.question.trueFalse
+                  let d = this.bankForm.bankList.question.shortAnswer
+                  if (a + b + c + d == 0) {
+                    this.$message.error('随机抽题数量不能为0')
+                    return
+                  }
+                } else {
+                  if (this.bankForm.bankList[i].question.questionIdList.length == 0) {
+                    this.$message.error('题库中没有题目')
+                    return
+                  }
                 }
               }
               if (this.isDuplicate(this.bankForm.bankList)) {

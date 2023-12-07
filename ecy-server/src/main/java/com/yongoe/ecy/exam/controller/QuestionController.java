@@ -54,7 +54,7 @@ public class QuestionController {
     public R add(@RequestBody QuestionReq req) {
         Question question = questionConvert.req2Entity(req);
         questionService.save(question);
-     if (question.getType().equals("判断题")) {
+     if (question.getType().equals("判断")) {
          questionOptionService.save(new QuestionOption(null,question.getId(),"对",false,null,null,null,null));
          questionOptionService.save(new QuestionOption(null,question.getId(),"错",false,null,null,null,null));
         }

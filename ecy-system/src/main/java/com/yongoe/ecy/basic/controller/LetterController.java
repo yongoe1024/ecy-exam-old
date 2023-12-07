@@ -48,13 +48,13 @@ public class LetterController {
     @Operation(summary = "查询最新数据6个")
     @PostMapping("/list")
     public R list() {
-        Letter letter = new Letter();
-        letter.setAddresseeId(UserUtils.getUserId());
         // 没读的数量
         long count = letterService.count(new LambdaQueryWrapper<Letter>()
                 .eq(Letter::getState, false)
                 .eq(Letter::getAddresseeId, UserUtils.getUserId()));
         // 最新6个
+        Letter letter = new Letter();
+        letter.setAddresseeId(UserUtils.getUserId());
         List<Letter> records = letterService.getLetterByPage(Page.of(1, 6), letter).getRecords();
         List<LetterReq> letterReqs = letterConvert.entity2ReqList(records);
         Map<String, Object> map = new HashMap<>();

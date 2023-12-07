@@ -1,5 +1,5 @@
-// document.oncontextmenu = function (event) { return false }//屏蔽鼠标右键 
-// document.onselectstart = function (event) { return false }//屏蔽鼠标选择
+document.oncontextmenu = function (event) { return false }//屏蔽鼠标右键 
+document.onselectstart = function (event) { return false }//屏蔽鼠标选择
 window.onhelp = function () { return false } //屏蔽F1帮助 
 document.onmousedown = function (event) {
   if (event.button == 1) { return false }	//屏蔽鼠标中键
@@ -36,15 +36,6 @@ var de = () => {
   }, 1000)
 }
 // de()
-history.pushState(null, null, location.href)
-window.addEventListener('popstate', function (event) {
-  history.pushState(null, null, location.href)
-})
-window.addEventListener('keydown', function (event) {
-  if (event.keyCode === 8) { // 后退按钮的键码是8
-    event.preventDefault()
-  }
-})
 window.onbeforeunload = function () {
   return "确定离开该页面吗？"
 }

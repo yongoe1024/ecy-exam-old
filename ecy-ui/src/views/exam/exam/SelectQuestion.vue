@@ -237,14 +237,6 @@ export default {
       myValue: {
         questionIdList: [],
         isAutoSelect: false,
-        singleChoice: 0,
-        multipleChoice: 0,
-        trueFalse: 0,
-        shortAnswer: 0,
-        singleChoice: 0,
-        multipleChoice: 0,
-        trueFalse: 0,
-        shortAnswer: 0,
       },
       dataList: [],
       queryParam: {

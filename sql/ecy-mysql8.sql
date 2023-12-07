@@ -608,8 +608,7 @@ CREATE TABLE `sys_role` (
 
 insert  into `sys_role`(`id`,`code`,`name`,`create_time`,`update_time`,`create_by`,`update_by`) values
 (1,'admin','超级管理员','2023-01-01 00:00:00','2023-01-01 00:00:00','yongoe','yongoe'),
-(2,'register','新用户','2023-01-01 00:00:00','2023-01-01 00:00:00','yongoe','yongoe'),
-(4,'student','学生','2023-12-05 09:52:28','2023-12-05 09:52:28','yongoe','yongoe');
+(2,'register','学生','2023-01-01 00:00:00','2023-12-07 13:43:17','yongoe','yongoe');
 
 /*Table structure for table `sys_role_menu` */
 
@@ -624,13 +623,14 @@ CREATE TABLE `sys_role_menu` (
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '创建人',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '修改人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `sys_role_menu` */
 
 insert  into `sys_role_menu`(`id`,`role_id`,`menu_id`,`create_time`,`update_time`,`create_by`,`update_by`) values
-(9,4,100,'2023-12-05 09:52:41','2023-12-05 09:52:41','yongoe','yongoe'),
-(10,4,134,'2023-12-05 09:52:41','2023-12-05 09:52:41','yongoe','yongoe');
+(11,2,100,'2023-12-07 13:43:42','2023-12-07 13:43:42','yongoe','yongoe'),
+(12,2,134,'2023-12-07 13:43:42','2023-12-07 13:43:42','yongoe','yongoe'),
+(13,2,137,'2023-12-07 13:43:42','2023-12-07 13:43:42','yongoe','yongoe');
 
 /*Table structure for table `sys_user` */
 
@@ -661,8 +661,8 @@ CREATE TABLE `sys_user` (
 /*Data for the table `sys_user` */
 
 insert  into `sys_user`(`id`,`department_id`,`position_id`,`username`,`password`,`name`,`avatar`,`email`,`phone`,`remark`,`last_ip`,`last_time`,`enabled`,`create_time`,`update_time`,`create_by`,`update_by`) values
-(1,6,1,'admin','111111','yongoe','/ecy-exam/file/2023/12/02/2629cc6d7aee4bc59fd9109775ada181.jpg','121887765@qq.com','10086','无','127.0.0.1','2023-12-07 09:08:33',1,'2023-01-01 00:00:00','2023-12-07 09:08:33','yongoe','yongoe'),
-(2,1,1,'test','111111','test','/','111','2222',NULL,'127.0.0.1','2023-12-06 14:25:41',1,'2023-12-05 09:52:11','2023-12-06 14:25:41','yongoe','test');
+(1,6,1,'admin','111111','yongoe','/ecy-exam/file/2023/12/02/2629cc6d7aee4bc59fd9109775ada181.jpg','121887765@qq.com','10086','无','127.0.0.1','2023-12-07 13:46:53',1,'2023-01-01 00:00:00','2023-12-07 13:46:53','yongoe','yongoe'),
+(2,1,1,'test','111111','test','/','111','2222',NULL,'127.0.0.1','2023-12-07 13:46:23',1,'2023-12-05 09:52:11','2023-12-07 13:46:23','yongoe','test');
 
 /*Table structure for table `sys_user_auths` */
 
@@ -696,13 +696,13 @@ CREATE TABLE `sys_user_role` (
   `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '创建人',
   `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '修改人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `sys_user_role` */
 
 insert  into `sys_user_role`(`id`,`user_id`,`role_id`,`create_time`,`update_time`,`create_by`,`update_by`) values
 (2,1,1,'2023-12-02 16:59:37','2023-12-02 16:59:37','yongoe','yongoe'),
-(3,2,4,'2023-12-05 09:53:23','2023-12-05 09:53:23','yongoe','yongoe');
+(9,2,2,'2023-12-07 13:46:08','2023-12-07 13:46:08','yongoe','yongoe');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -63,17 +63,6 @@ export default {
         shortAnswer: []
       },
       questionList: [],
-      exam: {
-        enterTime: '',
-        finishTime: '',
-        status: '',
-        examRes: {
-          examName: '',
-          passScore: '',
-          totalScore: '',
-          duration: '',
-        }
-      },
       examId: null,
       userId: null,
     }
@@ -81,7 +70,6 @@ export default {
   mounted () {
     this.examId = this.$route.query.examId
     this.userId = this.$route.query.userId
-    this.getExam()
     this.getQuestion()
   },
   methods: {
@@ -94,11 +82,6 @@ export default {
         this.question = data
         this.present = this.question.singleChoice[0]
         this.questionList = [...this.question.singleChoice, ...this.question.multipleChoice, ...this.question.trueFalse, ...this.question.shortAnswer]
-      }).catch(e => { })
-    },
-    getExam () {
-      this.axios.post(`/exam/userpaper/exam?examId=${this.examId}`).then(data => {
-        this.exam = data
       }).catch(e => { })
     },
   },
