@@ -7,7 +7,8 @@
              v-html="question.content"></div>
       </el-col>
     </el-row>
-    <el-checkbox-group v-model="myAnswer">
+    <el-checkbox-group v-model="myAnswer"
+                       style="pointer-events: none;">
       <el-checkbox v-for="(item, index) in answerList"
                    :key="index"
                    class="answer"

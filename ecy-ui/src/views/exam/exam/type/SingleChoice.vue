@@ -9,6 +9,7 @@
     </el-row>
 
     <div v-for="(item, index) in answerList"
+         style="pointer-events: none;"
          :key="index">
       <el-radio v-model="myAnswer"
                 class="answer"

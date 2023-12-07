@@ -17,6 +17,7 @@
       <el-col :offset="1"
               :span="20">
         <div v-for="(item, index) in questionList"
+             style="pointer-events: none;"
              :key="index">
           <el-card style="margin-bottom:10px">
             <div slot="header">
