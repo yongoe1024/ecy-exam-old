@@ -208,6 +208,9 @@ export default {
       }
       this.axios.post('/exam/userquestion/answer', form).then(data => {
         this.axios.post(`/exam/userpaper/handPaper?examId=${this.examId}`).then(data => {
+          this.$confirm('考试结束，是否退出?', '提示', { type: 'warning' }).then(() => {
+            window.close()
+          }).catch(e => { })
           this.getExam()
         }).catch(e => { })
       }).catch(e => { })

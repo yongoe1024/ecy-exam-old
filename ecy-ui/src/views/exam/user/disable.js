@@ -1,5 +1,5 @@
 document.oncontextmenu = function (event) { return false }//屏蔽鼠标右键 
-document.onselectstart = function (event) { return false }//屏蔽鼠标选择
+// document.onselectstart = function (event) { return false }//屏蔽鼠标选择，富文本会坏
 window.onhelp = function () { return false } //屏蔽F1帮助 
 document.onmousedown = function (event) {
   if (event.button == 1) { return false }	//屏蔽鼠标中键
