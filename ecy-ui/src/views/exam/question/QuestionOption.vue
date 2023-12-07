@@ -16,7 +16,7 @@
       </el-col>
       <el-col :span="11"
               :offset="1">
-        <el-card v-if="question.type=='单选' || question.type=='多选'">
+        <el-card v-if="question.type=='简答'">
           <div slot="header">
             <span>答案</span>
           </div>

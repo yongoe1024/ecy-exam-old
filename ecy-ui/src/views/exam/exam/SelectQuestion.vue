@@ -258,6 +258,10 @@ export default {
   mounted () { },
   methods: {
     handleAddQuestion () {
+      if (this.myValue.isAutoSelect) {
+        this.$message.success('随机抽题')
+        return
+      }
       this.myValue.questionIdList = this.multipleSelection
       this.$message.success('添加了' + this.multipleSelection.length + '道题目')
     },

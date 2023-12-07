@@ -174,10 +174,10 @@
                           type="datetime"
                           placeholder="考试结束时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="考试时长"
+        <el-form-item label="考试时长(分钟)"
                       prop="duration">
           <el-input-number v-model="form.duration"
-                           :min="0"
+                           :min="10"
                            :max="duration"
                            label="请输入考试时长"></el-input-number>
         </el-form-item>

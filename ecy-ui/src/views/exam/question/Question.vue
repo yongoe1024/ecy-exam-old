@@ -86,7 +86,7 @@
           <el-button v-if="scope.row.type == '单选' || scope.row.type == '多选' || scope.row.type == '判断' "
                      type="text"
                      size="mini"
-                     @click="$router.push( '/exam-question-QuestionOption?questionId='+scope.row.id)">选项</el-button>
+                     @click="handleOption(scope.row)">选项</el-button>
           <el-button v-auth="'改'"
                      type="text"
                      size="mini"
@@ -213,10 +213,19 @@ export default {
     }
   },
   mounted () {
+    let x = window.sessionStorage.getItem('queryParam')
+    if (x) {
+      this.queryParam = JSON.parse(x)
+    }
     this.getList()
     this.getbankList()
   },
   methods: {
+    //跳转到 选项
+    handleOption (row) {
+      window.sessionStorage.setItem('queryParam', JSON.stringify(this.queryParam))
+      this.$router.push('/exam-question-QuestionOption?questionId=' + row.id)
+    },
     reset () {
       this.form = this.$options.data().form
     },
