@@ -10,10 +10,6 @@
                 prefix-icon="el-icon-search"
                 placeholder="请输入标题"
                 v-model="queryParam.title"></el-input>
-      <!-- <el-input size="small"
-                prefix-icon="el-icon-search"
-                placeholder="请输入内容"
-                v-model="queryParam.content"></el-input> -->
       <el-select v-model="queryParam.state"
                  size="small"
                  placeholder="请选择状态">
@@ -43,10 +39,6 @@
               :data="dataList"
               :header-cell-style="{background:'#eef1f6'}"
               style="width: 100%">
-      <!-- <el-table-column prop="addresseeId"
-                       label="收件人id"
-                       width="100"
-                       align="center"></el-table-column> -->
       <el-table-column prop="addressee"
                        label="收件人"
                        width="200"
