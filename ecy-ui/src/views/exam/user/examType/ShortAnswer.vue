@@ -56,10 +56,4 @@ export default {
 
 </script>
 <style scoped >
-.ql-editor {
-  min-height: 10px;
-}
-.ql-editor >>> img {
-  max-width: 100%;
-}
 </style>

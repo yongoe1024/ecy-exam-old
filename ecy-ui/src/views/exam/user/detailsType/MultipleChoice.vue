@@ -16,7 +16,7 @@
                    :label="item.id">
         <span>{{`${String.fromCharCode(65+index)}. `}}</span>
         <span class="ql-editor"
-              style="display:inline-block;width: 90%;"
+              style="display:inline-block;"
               v-html="item.content"></span>
       </el-checkbox>
     </el-checkbox-group>
@@ -85,15 +85,11 @@ export default {
 
 </script>
 <style  scoped>
-.ql-editor >>> img {
-  max-width: 90%;
-}
 .col {
   padding: 10px;
   box-shadow: 0 0 3px #aca6a6;
 }
 .answer {
-  font-size: 30px !important;
   margin-bottom: 10px;
   width: 100%;
   white-space: pre-wrap;

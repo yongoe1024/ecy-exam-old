@@ -11,7 +11,7 @@
                 :label="item.id">
         <span>{{`${String.fromCharCode(65+index)}. `}}</span>
         <span class="ql-editor"
-              style="display:inline-block;width: 90%;"
+              style="display:inline-block;width:90%"
               v-html="item.content"></span>
       </el-radio>
     </div>
@@ -67,24 +67,14 @@ export default {
 
 </script>
 <style scoped >
-.ql-editor {
-  min-height: 10px;
-}
-.ql-editor >>> img {
-  max-width: 100%;
-}
 .answer {
-  font-size: 30px !important;
   margin-bottom: 10px;
   width: 100%;
   white-space: pre-wrap;
   line-height: 1.5;
 }
-.answer .ql-editor >>> img {
-  width: 90%;
-}
 .el-radio.is-bordered {
   height: auto !important;
-  min-height: 65px;
+  min-height: 65px !important;
 }
 </style>

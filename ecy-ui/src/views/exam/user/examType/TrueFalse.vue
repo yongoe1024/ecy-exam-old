@@ -10,7 +10,7 @@
                 border
                 :label="item.id">
         <span class="ql-editor"
-              style="display:inline-block;width: 90%;"
+              style="display:inline-block;"
               v-html="item.content"></span>
       </el-radio>
     </div>
@@ -66,12 +66,6 @@ export default {
 
 </script>
 <style scoped >
-.ql-editor {
-  min-height: 10px;
-}
-.ql-editor >>> img {
-  max-width: 100%;
-}
 .answer {
   font-size: 30px !important;
   margin-bottom: 10px;
@@ -79,6 +73,6 @@ export default {
 }
 .el-radio.is-bordered {
   height: auto !important;
-  min-height: 65px;
+  min-height: 45px !important;
 }
 </style>

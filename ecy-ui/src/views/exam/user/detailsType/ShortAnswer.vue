@@ -14,7 +14,6 @@
       </el-col>
     </el-row>
     <el-divider></el-divider>
-    学生答案：
     <div class="ql-editor col"
          style="width: 80%;"
          v-html="myAnswer"></div>
@@ -60,9 +59,6 @@ export default {
 
 </script>
 <style  scoped>
-.ql-editor >>> img {
-  max-width: 90%;
-}
 .col {
   padding: 10px;
   box-shadow: 0 0 3px #aca6a6;

@@ -276,12 +276,6 @@ export default {
 .button * {
   margin: 0 8px 0 0;
 }
-.ql-editor {
-  min-height: 10px;
-}
-.ql-editor >>> img {
-  max-width: 300px;
-}
 .content {
   max-height: 100px;
 }
