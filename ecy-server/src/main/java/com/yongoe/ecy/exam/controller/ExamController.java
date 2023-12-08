@@ -34,6 +34,18 @@ public class ExamController {
     @Resource
     private ExamConvert examConvert;
 
+    @Operation(summary = "提前结束考试")
+    @PostMapping("/finish/{examId}")
+    public R finish(@PathVariable Long examId) {
+        Exam exam = examService.getById(examId);
+        if(exam.getStatus().equals("4")){
+            return R.error("考试已经结束");
+        }
+        exam.setStatus("4");
+        examService.updateById(exam);
+        return R.success("正在结束考试");
+    }
+
     @Operation(summary = "管理员考试详情")
     @PostMapping("/info/{examId}")
     public R info(@PathVariable Long examId) {

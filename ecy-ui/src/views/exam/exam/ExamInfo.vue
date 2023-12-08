@@ -25,6 +25,7 @@
                        border>
         <el-descriptions-item label="及格分">{{config.passScore}}</el-descriptions-item>
         <el-descriptions-item label="总分">{{config.totalScore}}</el-descriptions-item>
+        <el-descriptions-item label=""><el-button @click="handleFinish">提前结束考试</el-button></el-descriptions-item>
 
       </el-descriptions>
     </el-card>
@@ -71,10 +72,10 @@ export default {
       examId: null,
 
       question: {
-        singleChoice: [],
-        multipleChoice: [],
-        trueFalse: [],
-        shortAnswer: []
+        singleChoice: 0,
+        multipleChoice: 0,
+        trueFalse: 0,
+        shortAnswer: 0
       },
       config: {
         totalScore: 0,
@@ -93,6 +94,10 @@ export default {
     this.getInfo()
   },
   methods: {
+    handleFinish () {
+      this.axios.post(`/exam/exam/finish/${this.examId}`).then(data => {
+      }).catch(e => { })
+    },
     // 初始化数据
     getInfo () {
       this.axios.post(`/exam/exam/info/${this.examId}`).then(data => {

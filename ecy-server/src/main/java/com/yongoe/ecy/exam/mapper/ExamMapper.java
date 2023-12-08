@@ -3,7 +3,6 @@ package com.yongoe.ecy.exam.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yongoe.ecy.exam.entity.Exam;
-import com.yongoe.ecy.exam.entity.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -28,9 +27,9 @@ public interface ExamMapper extends BaseMapper<Exam> {
     List<Long> randomQuestion(@Param("bankId") Long bankId, @Param("type") String type, @Param("num") Integer num);
 
     /**
-     * 根据考试id获取题目
+     * 根据考试id获取题目s
      */
-    @Select("SELECT e_question.*,e_exam_question.score FROM e_question LEFT JOIN e_exam_question ON e_question.id = e_exam_question.question_id WHERE e_question.type=#{type} AND e_question.id IN (SELECT question_id FROM e_exam_question WHERE exam_id = #{examId} ) ORDER BY e_question.TYPE")
-    List<Question> getQuestionByExamId(@Param("examId") Long examId, @Param("type") String type);
+    @Select("SELECT COUNT(*) FROM e_exam_question LEFT join e_question ON e_question.id = e_exam_question.question_id WHERE  e_question.type = #{type} AND  e_exam_question.exam_id =#{examId} ")
+    Long getQuestionByExamId(@Param("examId") Long examId, @Param("type") String type);
 
 }

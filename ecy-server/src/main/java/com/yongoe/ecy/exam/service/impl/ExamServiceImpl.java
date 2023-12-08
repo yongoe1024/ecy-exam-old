@@ -81,10 +81,10 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             auth.put("examUserList", list1);
         }
         //题目
-        int singleChoice = baseMapper.getQuestionByExamId(examId, "单选").size();
-        int multipleChoice = baseMapper.getQuestionByExamId(examId, "多选").size();
-        int trueFalse = baseMapper.getQuestionByExamId(examId, "判断").size();
-        int shortAnswer = baseMapper.getQuestionByExamId(examId, "简答").size();
+        long singleChoice = baseMapper.getQuestionByExamId(examId, "单选");
+        long multipleChoice = baseMapper.getQuestionByExamId(examId, "多选");
+        long trueFalse = baseMapper.getQuestionByExamId(examId, "判断");
+        long shortAnswer = baseMapper.getQuestionByExamId(examId, "简答");
         question.put("singleChoice", singleChoice);
         question.put("multipleChoice", multipleChoice);
         question.put("trueFalse", trueFalse);
@@ -155,7 +155,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         for (BankList bankList : bankForm.getBankList()) {
             if (bankList.getIsAutoSelect()) {
                 //自动选题
-                random(bankList);
+                random(examId, bankList);
             } else {
                 // 手动选题
                 for (Long questionId : bankList.getQuestionIdList()) {
@@ -258,26 +258,26 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
     /**
      * 试卷选题-随机抽题
      */
-    private void random(BankList bankList) {
+    private void random(Long exanId, BankList bankList) {
         long bankId = bankList.getBankId();
         List<Long> singleList = baseMapper.randomQuestion(bankId, "单选", bankList.getSingleChoice());
         List<Long> multipleList = baseMapper.randomQuestion(bankId, "多选", bankList.getMultipleChoice());
         List<Long> trueFalseList = baseMapper.randomQuestion(bankId, "判断", bankList.getTrueFalse());
         List<Long> shortAnswerList = baseMapper.randomQuestion(bankId, "简答", bankList.getShortAnswer());
         for (Long questionId : singleList) {
-            ExamQuestion examQuestion = createExamQuestion(bankList.getBankId(), questionId, bankList.getSingleChoiceScore());
+            ExamQuestion examQuestion = createExamQuestion(exanId, questionId, bankList.getSingleChoiceScore());
             examQuestionService.save(examQuestion);
         }
         for (Long questionId : multipleList) {
-            ExamQuestion examQuestion = createExamQuestion(bankList.getBankId(), questionId, bankList.getMultipleChoiceScore());
+            ExamQuestion examQuestion = createExamQuestion(exanId, questionId, bankList.getMultipleChoiceScore());
             examQuestionService.save(examQuestion);
         }
         for (Long questionId : trueFalseList) {
-            ExamQuestion examQuestion = createExamQuestion(bankList.getBankId(), questionId, bankList.getTrueFalseScore());
+            ExamQuestion examQuestion = createExamQuestion(exanId, questionId, bankList.getTrueFalseScore());
             examQuestionService.save(examQuestion);
         }
         for (Long questionId : shortAnswerList) {
-            ExamQuestion examQuestion = createExamQuestion(bankList.getBankId(), questionId, bankList.getShortAnswerScore());
+            ExamQuestion examQuestion = createExamQuestion(exanId, questionId, bankList.getShortAnswerScore());
             examQuestionService.save(examQuestion);
         }
     }

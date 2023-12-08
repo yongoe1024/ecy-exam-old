@@ -73,6 +73,6 @@ export default {
 }
 .el-radio.is-bordered {
   height: auto !important;
-  min-height: 45px !important;
+  min-height: 65px !important;
 }
 </style>
