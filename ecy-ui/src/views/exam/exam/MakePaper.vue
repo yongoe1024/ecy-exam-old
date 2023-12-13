@@ -55,6 +55,13 @@
                            :min="0"
                            :max="configForm.totalScore"></el-input-number>
         </el-form-item>
+        <el-alert title="仅全部自动抽题可用"
+                  type="warning"
+                  show-icon>
+        </el-alert>
+        <el-form-item>
+          <el-button @click="auto">自动计算分数</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
 
@@ -146,6 +153,19 @@ export default {
     this.getbankList()
   },
   methods: {
+    auto () {
+      let totalScore = 0
+      this.bankForm.bankList.forEach(item => {
+        if (item.question.isAutoSelect) {
+          totalScore += item.question.singleChoice * item.question.singleChoiceScore
+          totalScore += item.question.multipleChoice * item.question.multipleChoiceScore
+          totalScore += item.question.trueFalse * item.question.trueFalseScore
+          totalScore += item.question.shortAnswer * item.question.shortAnswerScore
+        }
+      })
+      this.configForm.totalScore = totalScore
+      this.configForm.passScore = totalScore * 0.6
+    },
     submitForm () {
       this.$refs.configForm.validate(valid => {
         if (valid) {
